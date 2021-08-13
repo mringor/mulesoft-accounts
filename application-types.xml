@@ -1,0 +1,37 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<types:mule xmlns:types="http://www.mulesoft.org/schema/mule/types">
+  <types:catalog>
+    <types:type name="Accounts" format="json">
+      <types:shape format="weave" example="examples/accounts-3.json"><![CDATA[%dw 2.0
+
+type Accounts = Array<{|  salesID: String,   id: String,   firstName: String,   lastName: String,   address: String,   postal: String,   country: String,   creationDate: String,   accountType: String,   miles: Number {"typeId": "int"}|}> {"example": "[{\\\"salesID\\\":\\\"4400Mat Siva824332017-10-21T22:54:36+0.00\\\",\\\"id\\\":\\\"4400\\\",\\\"firstName\\\":\\\"Mat\\\",\\\"lastName\\\":\\\"Siva\\\",\\\"address\\\":\\\"12345 Green, Boulder, Colorado\\\",\\\"postal\\\":\\\"82433\\\",\\\"country\\\":\\\"USA\\\",\\\"creationDate\\\":\\\"2017-10-21T22:54:36+0.00\\\",\\\"accountType\\\":\\\"business\\\",\\\"miles\\\":119093},{\\\"salesID\\\":\\\"4411Arjun Dale725322006-03-04T19:53:05+0.00\\\",\\\"id\\\":\\\"4411\\\",\\\"firstName\\\":\\\"Arjun\\\",\\\"lastName\\\":\\\"Dale\\\",\\\"address\\\":\\\"Capthorne Avenue, London, Harrow\\\",\\\"postal\\\":\\\"72532\\\",\\\"country\\\":\\\"United Kingdom\\\",\\\"creationDate\\\":\\\"2006-03-04T19:53:05+0.00\\\",\\\"accountType\\\":\\\"business\\\",\\\"miles\\\":126689}]"}
+
+]]></types:shape>
+    </types:type>
+    <types:type name="Accounts2" format="json">
+      <types:shape format="weave" example="examples/accounts-4.json"><![CDATA[%dw 2.0
+
+type Accounts2 = Array<{|  salesID: String,   id: String,   name: String,   address: String,   postal: String,   country: String,   creationDate: String,   accountType: String,   miles: Number {"typeId": "int"}|}> {"example": "[{\\\"salesID\\\":\\\"4400Mat Siva824332017-10-21T22:54:36+0.00\\\",\\\"id\\\":\\\"4400\\\",\\\"name\\\":\\\"Mat Siva\\\",\\\"address\\\":\\\"12345 Green, Boulder, Colorado\\\",\\\"postal\\\":\\\"82433\\\",\\\"country\\\":\\\"USA\\\",\\\"creationDate\\\":\\\"2017-10-21T22:54:36+0.00\\\",\\\"accountType\\\":\\\"business\\\",\\\"miles\\\":119093},{\\\"salesID\\\":\\\"4411Arjun Dale725322006-03-04T19:53:05+0.00\\\",\\\"id\\\":\\\"4411\\\",\\\"name\\\":\\\"Arjun Dale\\\",\\\"address\\\":\\\"Capthorne Avenue, London, Harrow\\\",\\\"postal\\\":\\\"72532\\\",\\\"country\\\":\\\"United Kingdom\\\",\\\"creationDate\\\":\\\"2006-03-04T19:53:05+0.00\\\",\\\"accountType\\\":\\\"business\\\",\\\"miles\\\":126689}]"}
+
+]]></types:shape>
+    </types:type>
+  </types:catalog>
+  <types:enrichment select="#fa6354d3-2185-4448-9de2-81be44cb1526">
+    <types:processor-declaration>
+      <types:output-event>
+        <types:message>
+          <types:payload type="Accounts"/>
+        </types:message>
+      </types:output-event>
+    </types:processor-declaration>
+  </types:enrichment>
+  <types:enrichment select="#83cd44ae-451b-4b58-af1e-59b41684ff09">
+    <types:processor-declaration>
+      <types:output-event>
+        <types:message>
+          <types:payload type="Accounts2"/>
+        </types:message>
+      </types:output-event>
+    </types:processor-declaration>
+  </types:enrichment>
+</types:mule>
