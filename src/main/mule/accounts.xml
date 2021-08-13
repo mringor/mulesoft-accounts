@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+	<http:listener-config name="HTTP_Listener_config" doc:name="HTTP Listener config" doc:id="1bff0bb2-6392-4b91-86ec-e1a5c2203361" >
+		<http:listener-connection host="0.0.0.0" port="8081" />
+	</http:listener-config>
+	<flow name="accountsFlow" doc:id="1f8284b2-59ad-49df-a67a-ed44a8816ba4" >
+		<http:listener doc:name="Listener" doc:id="d2d430c4-0bdd-42bc-9dac-47360e01b927" config-ref="HTTP_Listener_config" path="/accounts" outputMimeType="application/json" outputEncoding="UTF-8"/>
+		<set-payload value='[{"salesID": "4400Mat Siva824332017-10-21T22:54:36+0.00","id": "4400","firstName": "Mat","lastName": "Siva","address": "12345 Green, Boulder, Colorado","postal": "82433","country": "USA","creationDate": "2017-10-21T22:54:36+0.00","accountType": "business","miles": 119093},{"salesID": "4411Arjun Dale725322006-03-04T19:53:05+0.00","id": "4411","firstName": "Arjun","lastName": "Dale","address": "Capthorne Avenue, London, Harrow","postal": "72532","country": "United Kingdom","creationDate": "2006-03-04T19:53:05+0.00","accountType": "business","miles": 126689}]' doc:name="Set Payload" doc:id="fa6354d3-2185-4448-9de2-81be44cb1526" mimeType="application/json"/>
+		<ee:transform doc:name="Transform Message" doc:id="83cd44ae-451b-4b58-af1e-59b41684ff09" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+payload map ( payload01 , indexOfPayload01 ) -> {
+	salesID: payload01.salesID,
+	id: payload01.id,
+	name: (payload01.firstName
+default "") ++ " " ++ payload01.lastName,
+	address: payload01.address,
+	postal: payload01.postal,
+	country: payload01.country,
+	creationDate: payload01.creationDate,
+	accountType: payload01.accountType,
+	miles: payload01.miles
+}]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+	</flow>
+</mule>
